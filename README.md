@@ -1,7 +1,7 @@
 # Comparative Vulnerability Assessment: DVWA 🛡️
 
 ### **Project Overview**
-This project demonstrates a comprehensive, comparative vulnerability assessment of the **Damn Vulnerable Web Application (DVWA)**. By utilizing both an open-source tool (**OWASP ZAP**) and an enterprise-grade scanner (**Invicti Standard**), I performed a systematic security audit to identify, verify, and document common web application risks.
+**This project demonstrates a comprehensive, comparative vulnerability assessment of the **Damn Vulnerable Web Application (DVWA)**. By utilizing both an open-source tool (**OWASP ZAP**) and an enterprise-grade scanner (**Invicti Standard**), I performed a systematic security audit to identify, verify, and document common web application risks.**
 ---
 ### **💻 Lab Environment**
 The assessment was conducted in a controlled virtual environment to ensure safety and isolation:

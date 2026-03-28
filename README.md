@@ -1,56 +1,66 @@
-# Comparative Vulnerability Assessment: DVWA 🛡️
+# 🛡️ Enterprise-Grade Vulnerability Assessment: DVWA Audit
 
 ### **Project Overview**
-This project demonstrates a comprehensive, comparative vulnerability assessment of the **Damn Vulnerable Web Application (DVWA)**. By utilizing both an open-source tool (**OWASP ZAP**) and an enterprise-grade scanner (**Invicti Standard**), I performed a systematic security audit to identify, verify, and document common web application risks.
----
-### **💻 Lab Environment**
-The assessment was conducted in a controlled virtual environment to ensure safety and isolation:
-* **Hypervisor:** VMware Workstation
-* **Attacker Machine:** Windows 10 VM (Hosting Invicti & OWASP ZAP)
-* **Target Machine:** Metasploitable 2 Linux (Hosting DVWA)
-* **Target URL:** `http://150.1.7.104/dvwa`
+[cite_start]This project presents a high-level security audit of the **Damn Vulnerable Web Application (DVWA)**[cite: 4]. [cite_start]The objective was to conduct a comparative analysis between the industry-standard open-source scanner **OWASP ZAP** and the world-leading enterprise DAST solution, **Invicti Standard**[cite: 14, 15, 19, 382].
+
+[cite_start]The audit focuses on identifying critical security gaps, aggregating multi-tool findings, and providing actionable remediation strategies to improve secure development practices[cite: 6, 23].
 
 ---
 
-### **🛠️ Tools & Methodology**
-The methodology followed a standard DAST (Dynamic Application Security Testing) workflow:
-1.  **OWASP ZAP (Primary Tool):** Used for automated spidering and identifying passive security flaws and header misconfigurations.
-2.  **Invicti Standard (Alternative Tool):** Used for deep-active scanning and proof-based vulnerability detection for complex injection points.
-3.  **Aggregation:** Duplicate findings were filtered to provide a consolidated and prioritized view of the security posture.
+### **💻 Security Lab Environment**
+[cite_start]A specialized virtualized environment was utilized to ensure safe and isolated testing[cite: 8, 12]:
+* **Hypervisor:** VMware Workstation.
+* **Attacker Node:** Windows 10 Pro (Hosting the Security Suite).
+* [cite_start]**Target Node:** Metasploitable 2 Linux (Hosting the DVWA Instance)[cite: 4, 10].
+* **Network Configuration:** Isolated Host-Only networking to prevent external exposure.
 
 ---
 
-### **📊 Aggregated Technical Findings**
-Findings were aggregated and sorted by CVSS severity and potential business impact:
+### **🛠️ Technical Stack: Invicti vs. OWASP ZAP**
+[cite_start]This assessment highlights the difference between community-driven tools and enterprise-tier security software[cite: 19]:
 
-| Vulnerability | Severity | Detected By | Impact |
+#### **1. Invicti Standard (Enterprise Powerhouse)**
+[cite_start]Invicti is a premium DAST solution trusted by global organizations for its precision and depth[cite: 382, 393].
+* [cite_start]**Proof-Based Scanning:** Automatically verifies vulnerabilities to eliminate false positives, ensuring accuracy for critical flaws[cite: 395].
+* [cite_start]**Deep Engine Analysis:** Detected out-of-date server components and encryption failures that are often overlooked by basic scanners[cite: 398, 415].
+* [cite_start]**Compliance Mapping:** Provides detailed mapping against PCI DSS, OWASP Top 10, and ISO27001[cite: 422, 423].
+
+#### **2. OWASP ZAP (Industry Standard)**
+* [cite_start]Utilized for automated spidering and baseline security alerts[cite: 14, 19].
+* [cite_start]Effective at identifying passive security risks and missing HTTP security headers[cite: 34].
+
+---
+
+### **📊 Comprehensive Technical Findings**
+[cite_start]The following critical and high-risk issues were identified and validated across the target[cite: 32, 393, 401, 402]:
+
+| Vulnerability Name | Severity | Primary Tool | Description & Impact |
 | :--- | :--- | :--- | :--- |
-| **Out-of-date Apache/PHP** | **Critical** | Invicti | High risk of exploitation via known CVEs leading to system compromise. |
-| **Password over HTTP** | **High** | Invicti | Login credentials transmitted in plain text, vulnerable to sniffing. |
-| **Cloud Metadata Disclosure** | **High** | ZAP | Potential leakage of sensitive infrastructure internal data. |
-| **Missing Anti-CSRF Tokens** | **Medium** | ZAP | Vulnerable to unauthorized state-changing actions via CSRF. |
-| **Information Disclosure** | **Low** | Both | Reveals server banners and software versions to attackers. |
+| **Remote Code Execution (CVE-2012-1823)** | **Critical/High** | **ZAP** | [cite_start]Arbitrary OS command execution on the web server via PHP CGI misconfiguration[cite: 34, 36]. |
+| **Source Code Disclosure (CVE-2012-1823)** | **Critical/High** | **ZAP** | [cite_start]Disclosure of raw PHP source code, potentially revealing credentials and logic[cite: 34, 36]. |
+| **Out-of-date Apache (2.2.8)** | **Critical** | **Invicti** | [cite_start]The web server version is obsolete and contains numerous known exploits[cite: 398, 415]. |
+| **Out-of-date PHP (5.2.4-2)** | **Critical** | **Invicti** | [cite_start]The PHP engine is end-of-life and subject to critical security vulnerabilities[cite: 398, 415, 186]. |
+| **Cleartext Password Transmission** | **High** | **Invicti** | [cite_start]Sensitive credentials are sent over HTTP without SSL/TLS encryption[cite: 415, 420]. |
+| **Absence of Anti-CSRF Tokens** | **Medium** | **ZAP** | [cite_start]Forms lack protection against Cross-Site Request Forgery (CSRF) attacks[cite: 34, 41]. |
+| **Directory Browsing Enabled** | **Medium** | **Both** | [cite_start]Allows attackers to view and access sensitive directory listings[cite: 34, 118, 417]. |
+| **Hidden File Found (phpinfo.php)** | **Medium** | **ZAP** | [cite_start]Exposure of detailed PHP configuration and environment information[cite: 34, 120]. |
+| **Missing Content Security Policy (CSP)** | **Medium** | **Both** | [cite_start]Lack of CSP headers increases the risk of XSS and data injection attacks[cite: 34, 94, 415]. |
+| **Missing Anti-Clickjacking Header** | **Medium** | **ZAP** | [cite_start]The site is vulnerable to UI redressing attacks due to missing X-Frame-Options[cite: 34, 121]. |
+| **Cookie No HttpOnly Flag** | **Low** | **Both** | [cite_start]Session cookies can be accessed via JavaScript, leading to potential hijacking[cite: 34, 121, 415]. |
 
 ---
 
-### **📸 Evidence**
-*(Note: Visual evidence is stored in the `/Evidence` directory of this repository)*
-
-1.  **Invicti Scan Dashboard:** Displays the risk distribution and overall security score.
-2.  **Report Artifacts:** Evidence of the final PDF/HTML reports generated during the assessment.
-
----
-
-### **🚀 Actionable Remediation**
-* **System Patching:** Update web server components (Apache and PHP) to current stable versions.
-* **Encryption:** Deploy SSL/TLS certificates to enforce HTTPS for all sensitive directories.
-* **Header Hardening:** Implement security headers like `X-Frame-Options` and `X-Content-Type-Options`.
-* **Session Security:** Enforce `HttpOnly` and `Secure` flags on session cookies and implement Anti-CSRF tokens.
+### **🚀 Actionable Remediation Roadmap**
+1. [cite_start]**Critical Patching:** Update the web server (Apache) and backend engine (PHP) to current stable versions immediately[cite: 36, 101, 415].
+2. [cite_start]**Implement Encryption:** Deploy SSL/TLS (HTTPS) to secure all data transmissions and protect user credentials[cite: 415].
+3. [cite_start]**Security Header Deployment:** Configure mandatory headers including `Content-Security-Policy`, `X-Frame-Options: DENY`, and `X-Content-Type-Options: nosniff`[cite: 105, 121, 188].
+4. [cite_start]**Session Hardening:** Enable `HttpOnly` and `Secure` flags on all cookies and implement robust Anti-CSRF tokens[cite: 76, 139, 417].
+5. [cite_start]**Server Hardening:** Disable directory browsing and suppress server version information in HTTP headers[cite: 118, 187, 417].
 
 ---
 
 ### **📂 Repository Structure**
 ```text
-├── Reports/            # Final assessment reports (PDF/HTML)
-├── Evidence/           # Tool dashboards and folder screenshots
-└── README.md           # Project documentation
+├── Reports/            # Consolidated PDF & HTML Security Reports [cite: 18]
+├── Evidence/           # Tool Dashboards and Technical Screenshots [cite: 5]
+└── README.md           # Project Documentation [cite: 18]

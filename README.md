@@ -49,6 +49,7 @@ The following critical and high-risk issues were identified and validated across
 | **Cookie No HttpOnly Flag** | **Low** | **Both** | Session cookies can be accessed via JavaScript, leading to hijacking. |
 
 ---
+## 📸 Screenshot
 ![App Screenshot](Screenshot%202026-03-28%20064148.png)
 
 ### **🚀 Actionable Remediation Roadmap**

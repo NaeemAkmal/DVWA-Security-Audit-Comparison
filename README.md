@@ -49,6 +49,7 @@ The following critical and high-risk issues were identified and validated across
 | **Cookie No HttpOnly Flag** | **Low** | **Both** | Session cookies can be accessed via JavaScript, leading to hijacking. |
 
 ---
+![App Screenshot](Screenshot%202026-03-28%20064148.png)
 
 ### **🚀 Actionable Remediation Roadmap**
 1. **Critical Patching:** Update web server (Apache) and backend engine (PHP) to current stable versions immediately.
